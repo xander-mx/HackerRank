@@ -62,12 +62,14 @@ public class HackerRankServ {
         dataPlayerTwo.setReview(scorePlayerTwo);
         Player winner = finalResult[0] > finalResult[1] ? dataPlayerOne.getPlayer() : finalResult[0] == finalResult[1] ?  playerRepository.findById(NO_WINNER).get() : dataPlayerTwo.getPlayer();
         challenge.setDraw(finalResult[0] == finalResult[1]);
-        challengeDetailSet.add(dataPlayerOne);
-        challengeDetailSet.add(dataPlayerTwo);
-        challenge.setDetails(challengeDetailSet);
         challenge.setScore(Arrays.toString(finalResult));
         challenge.setWinner(winner);
+        dataPlayerOne.setChallenge(challenge);
+        dataPlayerTwo.setChallenge(challenge);
+        challengeDetailSet.add(dataPlayerOne);
+        challengeDetailSet.add(dataPlayerTwo);
         challengeRepository.save(challenge);
+
         return "El ganador es " + winner.getName() + " con el siguiente resultado: " + Arrays.toString(finalResult);
     }
 }

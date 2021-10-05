@@ -20,10 +20,10 @@ public class Challenge {
     private String score;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "challenge", orphanRemoval = true)
-    public Set<ChallengeDetail> details;
+    private Set<ChallengeDetail> details;
 
     @Column(name = "draw")
-    public Boolean draw;
+    private Boolean draw;
 
     public Challenge() {}
 

@@ -2,6 +2,8 @@ package com.gnp.hackerrank.HackerRank.controllers;
 
 import com.gnp.hackerrank.HackerRank.services.HackerRankServ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,13 +14,30 @@ public class HackerRankCtrl {
     private HackerRankServ hackerRankServ;
 
     @PostMapping(path="/player/register")
-    public @ResponseBody String addNewUser (@RequestParam String name) {
-        return hackerRankServ.registerPlayer(name);
+    public @ResponseBody ResponseEntity<String> addNewUser (@RequestParam String name) {
+        try{
+        return new ResponseEntity<>(hackerRankServ.registerPlayer(name), HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @GetMapping("/hello")
-	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-		return String.format("Hello %s!", name);
-	}
+    @GetMapping("/evaluate")
+    public @ResponseBody ResponseEntity<int[]> evaluate(@RequestParam(value = "scoreOne") String scoreOne, @RequestParam(value = "scoreTwo") String scoreTwo) {
+        try{
+        return new ResponseEntity<>(hackerRankServ.compareTriplets(scoreOne, scoreTwo), HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
+    @PostMapping(path = "/challenge/save")
+    public @ResponseBody ResponseEntity<String> saveChallenge(@RequestParam(value = "scoreOne") String scoreOne, @RequestParam(value = "scoreTwo") String scoreTwo,
+                                                @RequestParam(value = "playerOne", required = false) Long playerOne, @RequestParam(value = "playerTwo", required = false) Long playerTwo) {
+        try {
+            return new ResponseEntity<>(hackerRankServ.registerChallengeWinner(scoreOne, scoreTwo, playerOne, playerTwo), HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>("Error: "+e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }
