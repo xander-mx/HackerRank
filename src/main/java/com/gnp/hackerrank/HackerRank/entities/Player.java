@@ -1,22 +1,24 @@
 package com.gnp.hackerrank.HackerRank.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "players")
 public class Player {
 
-    public Player() {}
-
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "name")
     private String name;
+
+    public Player() {}
+
+    public Player(String name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;

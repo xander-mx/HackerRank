@@ -5,8 +5,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "challenge_detail")
 public class ChallengeDetail {
+
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne

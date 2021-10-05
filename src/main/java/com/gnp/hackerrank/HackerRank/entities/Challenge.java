@@ -1,12 +1,15 @@
 package com.gnp.hackerrank.HackerRank.entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "challenges")
 public class Challenge {
+
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @OneToOne
@@ -15,6 +18,12 @@ public class Challenge {
 
     @Column(name = "score")
     private String score;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "challenge", orphanRemoval = true)
+    public Set<ChallengeDetail> details;
+
+    @Column(name = "draw")
+    public Boolean draw;
 
     public Challenge() {}
 
@@ -46,5 +55,21 @@ public class Challenge {
 
     public void setScore(String score) {
         this.score = score;
+    }
+
+    public Set<ChallengeDetail> getDetails() {
+        return details;
+    }
+
+    public void setDetails(Set<ChallengeDetail> details) {
+        this.details = details;
+    }
+
+    public Boolean getDraw() {
+        return draw;
+    }
+
+    public void setDraw(Boolean draw) {
+        this.draw = draw;
     }
 }
